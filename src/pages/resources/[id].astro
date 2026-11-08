@@ -1,0 +1,228 @@
+---
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import Banner from '@components/atoms/Banner.astro';
+import Button from '@components/atoms/Button';
+import Link from '@components/atoms/Link';
+import Tag from '@components/atoms/Tag';
+import ShareButtons from '@components/molecules/ShareButtons.astro';
+import Hero from '@components/organisms/Hero.astro';
+import RelatedContentItems from '@components/organisms/RelatedContentItems.astro';
+import PageLayout from '@layouts/PageLayout.astro';
+import SectionLayout from '@layouts/SectionLayout.astro';
+import { mapColorToVariant } from '@utils/content';
+import { creativeWorkNode } from '@utils/jsonld';
+import { getPeopleMap, resolvePeople } from '@utils/people';
+import {
+	formatCategory,
+	getResources,
+	getResourcesByIds,
+} from '@utils/resources';
+import { absoluteUrl } from '@utils/seo';
+import type { GetStaticPaths } from 'astro';
+import IconExternalLink from '~icons/heroicons/arrow-top-right-on-square-20-solid';
+
+export const getStaticPaths = (async () => {
+	const resources = await getResources();
+	return resources.map((resource) => ({
+		params: { id: resource.data.id },
+		props: { resource },
+	}));
+}) satisfies GetStaticPaths;
+
+const { resource } = Astro.props;
+const { title, description, authors, contributors, year, category, tags, externalLinks, publishedDate, status } = resource.data;
+
+// Resolve contributors to full person data
+const peopleMap = await getPeopleMap();
+const resolvedContributors = await resolvePeople(contributors, peopleMap);
+
+// Hand-picked related resources (excluding this one)
+const relatedResources = (
+	await getResourcesByIds(resource.data.relatedResources ?? [])
+).filter((related) => related.id !== resource.id);
+
+// Absolute URL for share links
+const shareUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+
+// Format date if available
+const formatDate = (date: Date) => {
+	return new Intl.DateTimeFormat('en-US', {
+		timeZone: 'UTC',
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+	}).format(date);
+};
+
+// Archived banner
+const siteConfig = await getEntry('site', 'config');
+const archivedBanner = siteConfig?.data.archivedBanner;
+
+// SEO: schema.org CreativeWork node
+const resourceUrl = absoluteUrl(`/resources/${resource.data.id}`);
+const resourceJsonLd = creativeWorkNode({
+	url: resourceUrl,
+	title,
+	description,
+	datePublished: publishedDate,
+	year,
+	authors: [
+		...(authors ? [{ name: authors }] : []),
+		...resolvedContributors.map((p) => ({
+			name: p.name,
+			url: absoluteUrl(`/people/${p.id}`),
+		})),
+	],
+	keywords: tags,
+	genre: formatCategory(category),
+});
+---
+
+<PageLayout
+	title={resource.data.seoTitle ?? title}
+	description={resource.data.seoDescription ?? description}
+	breadcrumbTitle={title}
+	jsonLd={resourceJsonLd}
+>
+	{
+		status === 'archived' && archivedBanner && (
+			<Banner variant={mapColorToVariant(archivedBanner.color)} dismissible>
+				{archivedBanner.message}
+			</Banner>
+		)
+	}
+
+	<!-- Hero -->
+	<SectionLayout sectionLabel="hero">
+		<Hero title={title} size="default" background="white">
+			<div class="flex flex-wrap items-center gap-2">
+				<Tag variant="primary" size="md">{formatCategory(category)}</Tag>
+				<Tag variant="secondary" size="md">{String(year)}</Tag>
+				{
+					tags?.map((tag) => (
+						<Tag variant="gray" size="md">
+							{tag}
+						</Tag>
+					))
+				}
+			</div>
+		</Hero>
+	</SectionLayout>
+
+	<!-- Resource Content -->
+	<SectionLayout>
+		<div class="mx-auto max-w-4xl py-12">
+			{/* Description */}
+			{
+				description && (
+					<div class="mb-8">
+						<p class="text-neutral-700 text-lg leading-relaxed">
+							{description}
+						</p>
+					</div>
+				)
+			}
+
+			{/* Metadata */}
+			<div class="border-neutral-200 mb-8 rounded-lg border p-6">
+				<dl class="grid gap-4 sm:grid-cols-2">
+					{
+						authors && (
+							<div>
+								<dt class="text-neutral-500 text-sm font-medium">Authors</dt>
+								<dd class="text-neutral-900 mt-1">{authors}</dd>
+							</div>
+						)
+					}
+					<div>
+						<dt class="text-neutral-500 text-sm font-medium">Category</dt>
+						<dd class="text-neutral-900 mt-1">{formatCategory(category)}</dd>
+					</div>
+					<div>
+						<dt class="text-neutral-500 text-sm font-medium">Year</dt>
+						<dd class="text-neutral-900 mt-1">{year}</dd>
+					</div>
+					{
+						publishedDate && (
+							<div>
+								<dt class="text-neutral-500 text-sm font-medium">Published</dt>
+								<dd class="text-neutral-900 mt-1">
+									{formatDate(publishedDate)}
+								</dd>
+							</div>
+						)
+					}
+				</dl>
+			</div>
+
+			{/* External Links */}
+			{
+				externalLinks && externalLinks.length > 0 && (
+					<div class="mb-8 flex flex-wrap gap-3">
+						{externalLinks.map((link) => (
+							<Button
+								variant="primary"
+								size="md"
+								as="a"
+								href={link.url}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								{link.label}
+								<IconExternalLink className="ml-1 h-4 w-4" />
+							</Button>
+						))}
+					</div>
+				)
+			}
+
+			<ShareButtons url={shareUrl} title={title} class="mt-8 max-w-xs" />
+		</div>
+	</SectionLayout>
+
+	<!-- Contributors Section -->
+	{
+		resolvedContributors.length > 0 && (
+			<SectionLayout bgColor="gray">
+				<div class="mx-auto max-w-4xl py-12">
+					<h2 class="mb-8 text-2xl font-bold">
+						{resolvedContributors.length === 1 ? 'Contributor' : 'Contributors'}
+					</h2>
+					<div class="grid gap-6 md:grid-cols-2">
+						{resolvedContributors.map((contributor) => (
+							<Link
+								variant="unstyled"
+								href={`/people/${contributor.id}`}
+								class="flex gap-4 rounded-lg bg-white p-6 no-underline transition hover:shadow-sm"
+							>
+								{contributor.headshot && (
+									<Image
+										src={contributor.headshot}
+										alt={contributor.name}
+										class="h-16 w-16 rounded-full object-cover"
+									/>
+								)}
+								<div>
+									<h3 class="mb-1 text-lg font-semibold">{contributor.name}</h3>
+									{contributor.title && (
+										<p class="text-sm">{contributor.title}</p>
+									)}
+								</div>
+							</Link>
+						))}
+					</div>
+				</div>
+			</SectionLayout>
+		)
+	}
+
+	<!-- Related Resources -->
+	{
+		relatedResources.length > 0 && (
+			<SectionLayout>
+				<RelatedContentItems resources={relatedResources} />
+			</SectionLayout>
+		)
+	}
+</PageLayout>

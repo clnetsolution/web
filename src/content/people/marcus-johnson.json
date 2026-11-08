@@ -1,0 +1,13 @@
+{
+  "id": "marcus-johnson",
+  "name": "Marcus Johnson",
+  "headshot": "/src/assets/people/marcus-johnson.png",
+  "title": "Executive Director",
+  "affiliation": "Freedom Tech Alliance",
+  "sections": [
+    "Leadership",
+    "Engineering",
+    "Community"
+  ],
+  "status": "published"
+}

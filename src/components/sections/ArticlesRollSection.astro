@@ -1,0 +1,65 @@
+---
+import Button from '@components/atoms/Button';
+import Heading from '@components/atoms/Heading.astro';
+import ArticleCard from '@components/molecules/ArticleCard.astro';
+import {
+  getArticlesByCategory,
+  getPublishedArticles,
+  sortArticlesByDate,
+} from '@utils/articles';
+import IconArrowRight from '~icons/heroicons/arrow-right-20-solid';
+
+export interface Props {
+  title?: string;
+  limit?: number;
+  category?: string;
+  showViewAll?: boolean;
+}
+
+const {
+  title = 'Latest Articles',
+  limit = 3,
+  category,
+  showViewAll = true,
+} = Astro.props;
+
+// Fetch articles based on category filter
+let articles = category
+  ? await getArticlesByCategory(category)
+  : await getPublishedArticles();
+
+// Sort by date and limit
+articles = sortArticlesByDate(articles, 'desc').slice(0, limit);
+---
+
+<div class="py-12">
+	{/* Section Header */}
+	<div class="mb-8 flex items-end justify-between">
+		<Heading level={2} class="text-3xl">{title}</Heading>
+		{
+			showViewAll && (
+				<Button variant="ghost" size="sm" as="a" href="/articles">
+					View All Articles
+					<IconArrowRight className="ml-1 h-4 w-4" />
+				</Button>
+			)
+		}
+	</div>
+
+	{/* Articles Grid */}
+	{
+		articles.length === 0 ? (
+			<div class="py-12 text-center">
+				<p class="text-lg text-muted">
+					No articles available yet. Check back soon!
+				</p>
+			</div>
+		) : (
+			<div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+				{articles.map((article) => (
+					<ArticleCard article={article} />
+				))}
+			</div>
+		)
+	}
+</div>

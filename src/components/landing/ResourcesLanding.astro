@@ -1,0 +1,28 @@
+---
+import ResourcesFilteredGrid from '@components/organisms/Resource/ResourcesFilteredGrid';
+import {
+  formatCategory,
+  getResources,
+  prepareResourcesCardData,
+  serializeResourceCardData,
+} from '@utils/resources';
+
+const resources = await getResources();
+const resourcesData = await prepareResourcesCardData(resources);
+
+// Serialize for the React component
+const serializedResources = resourcesData.map(serializeResourceCardData);
+
+// Only offer categories that have resources
+const categories = [
+  ...new Set(serializedResources.map((resource) => resource.category)),
+].map((category) => ({ value: category, label: formatCategory(category) }));
+---
+
+<div class="py-12">
+  <ResourcesFilteredGrid
+    client:load
+    resources={serializedResources}
+    categories={categories}
+  />
+</div>

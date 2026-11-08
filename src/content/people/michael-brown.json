@@ -1,0 +1,11 @@
+{
+  "id": "michael-brown",
+  "name": "Michael Brown",
+  "headshot": "/src/assets/people/michael-brown.png",
+  "title": "Media Relations Lead",
+  "affiliation": "Open Internet Project",
+  "sections": [
+    "Marketing"
+  ],
+  "status": "published"
+}

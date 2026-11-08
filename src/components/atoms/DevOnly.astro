@@ -1,0 +1,10 @@
+---
+/**
+ * DevOnly component - wraps content that should only render in local dev mode.
+ * Does NOT render on preview builds.
+ * Usage: <DevOnly><span>Dev content here</span></DevOnly>
+ */
+import { isDevOnly } from '@utils/dev';
+---
+
+{isDevOnly && <slot />}

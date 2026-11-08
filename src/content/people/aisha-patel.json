@@ -1,0 +1,13 @@
+{
+  "id": "aisha-patel",
+  "name": "Aisha Patel",
+  "headshot": "/src/assets/people/aisha-patel.png",
+  "title": "Privacy Engineer",
+  "affiliation": "Freedom Tech Alliance",
+  "sections": [
+    "Engineering",
+    "Product",
+    "Community"
+  ],
+  "status": "published"
+}

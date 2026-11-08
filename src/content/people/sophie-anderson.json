@@ -1,0 +1,11 @@
+{
+  "id": "sophie-anderson",
+  "name": "Sophie Anderson",
+  "headshot": "/src/assets/people/sophie-anderson.png",
+  "title": "Visual Designer",
+  "affiliation": "Superbloom Design",
+  "sections": [
+    "Design"
+  ],
+  "status": "published"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "ryan-oconnor",
+  "name": "Ryan O'Connor",
+  "headshot": "/src/assets/people/ryan-oconnor.png",
+  "title": "Accessibility Designer",
+  "affiliation": "Superbloom Design",
+  "sections": [
+    "Product",
+    "Design"
+  ],
+  "status": "published"
+}

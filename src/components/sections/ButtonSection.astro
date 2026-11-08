@@ -1,0 +1,46 @@
+---
+import Button from '@components/atoms/Button';
+import type { ButtonData } from '@content-config';
+
+export interface Props {
+  title?: string;
+  buttons?: ButtonData[];
+  class?: string;
+}
+
+const {
+  title,
+  buttons = [],
+  class: className = '',
+} = Astro.props;
+---
+
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+	<!-- Section Header -->
+	{
+		title && (
+			<div class="mb-12 text-center">
+				{title && <h2 class="mb-4">{title}</h2>}
+			</div>
+		)
+	}
+
+	<!-- Buttons -->
+	{
+		buttons.length > 0 && (
+			<div class="flex flex-wrap justify-center gap-4">
+				{buttons.map((button) => (
+					<Button
+						variant={button.variant}
+						size={button.size}
+						link={button.link}
+						href={button.href}
+						icon={button.icon}
+					>
+						{button.text}
+					</Button>
+				))}
+			</div>
+		)
+	}
+</div>

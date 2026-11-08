@@ -1,0 +1,49 @@
+---
+import ArticlesFilteredGrid from '@components/organisms/ArticlesFilteredGrid';
+import {
+  getAllCategories,
+  getArticleExcerpt,
+  getPublishedArticles,
+  sortArticlesByDate,
+} from '@utils/articles';
+import { showDraftLabels } from '@utils/dev';
+import { getCardImage } from '@utils/images';
+import { getPeopleMap } from '@utils/people';
+
+// Fetch visible articles, sorted by date
+const articles = sortArticlesByDate(await getPublishedArticles());
+
+// Fetch people map for author lookups
+const peopleMap = await getPeopleMap();
+const authorMap: Record<string, string> = {};
+for (const [id, person] of peopleMap) {
+  authorMap[id] = person.name;
+}
+
+// Get all categories for filtering
+const categories = await getAllCategories();
+
+// Serialize articles for the React component
+const serializedArticles = await Promise.all(articles.map(async (article) => ({
+  slug: article.id,
+  title: article.data.title,
+  permalink: article.data.permalink,
+  excerpt: getArticleExcerpt(article),
+  authors: article.data.authors,
+  categories: article.data.categories,
+  publishedDate: article.data.publishedDate.toISOString(),
+  // Cards render ~400px wide; 800 covers 2× screens
+  heroImage: await getCardImage(article.data.heroImage, 800),
+  status: article.data.status,
+})));
+---
+
+<div class="py-12">
+  <ArticlesFilteredGrid
+    client:load
+    articles={serializedArticles}
+    categories={categories}
+    authorMap={authorMap}
+    isDev={showDraftLabels}
+  />
+</div>

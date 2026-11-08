@@ -1,0 +1,12 @@
+{
+  "id": "rachel-green",
+  "name": "Rachel Green",
+  "headshot": "/src/assets/people/rachel-green.png",
+  "title": "Director of Operations",
+  "affiliation": "Civic Data Collaborative",
+  "sections": [
+    "Leadership",
+    "Operations"
+  ],
+  "status": "published"
+}

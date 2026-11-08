@@ -1,0 +1,15 @@
+{
+  "id": "articles",
+  "name": "Article Categories",
+  "categories": [
+    "Privacy",
+    "Security",
+    "Accessibility",
+    "Civic Tech",
+    "Design",
+    "Technology",
+    "Tutorial",
+    "News",
+    "Opinion"
+  ]
+}

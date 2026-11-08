@@ -1,0 +1,12 @@
+{
+  "id": "james-thompson",
+  "name": "James Thompson",
+  "headshot": "/src/assets/people/james-thompson.png",
+  "title": "Director of Policy",
+  "affiliation": "Freedom Tech Alliance",
+  "sections": [
+    "Leadership",
+    "Engineering"
+  ],
+  "status": "published"
+}

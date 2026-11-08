@@ -1,0 +1,21 @@
+{
+  "id": "omar-hassan",
+  "name": "Omar Hassan",
+  "headshot": "/src/assets/people/omar-hassan.png",
+  "title": "Development Lead",
+  "affiliation": "Freedom Tech Alliance",
+  "socialLinks": [
+    {
+      "platform": "linkedin",
+      "url": "https://linkedin.com/in/omarhassan"
+    },
+    {
+      "platform": "email",
+      "url": "omar@freedomtech.example.org"
+    }
+  ],
+  "sections": [
+    "Sales"
+  ],
+  "status": "published"
+}

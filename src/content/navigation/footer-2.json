@@ -1,0 +1,46 @@
+{
+  "slug": "footer-2",
+  "title": "Get Started",
+  "items": [
+    {
+      "type": "link",
+      "label": "How to Use",
+      "link": {
+        "type": "internal",
+        "pageRef": "/how-to-use"
+      }
+    },
+    {
+      "type": "link",
+      "label": "Feature Showcase",
+      "link": {
+        "type": "internal",
+        "pageRef": "/feature-showcase"
+      }
+    },
+    {
+      "type": "link",
+      "label": "Source on GitHub",
+      "link": {
+        "type": "external",
+        "url": "https://github.com/draftlab-org/scaffold"
+      }
+    },
+    {
+      "type": "link",
+      "label": "Pages CMS",
+      "link": {
+        "type": "external",
+        "url": "https://pagescms.org"
+      }
+    },
+    {
+      "type": "link",
+      "label": "Astro Docs",
+      "link": {
+        "type": "external",
+        "url": "https://docs.astro.build"
+      }
+    }
+  ]
+}

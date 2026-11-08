@@ -1,0 +1,79 @@
+---
+import '@styles/global.css';
+import '@styles/scaffold.css';
+import 'lite-youtube-embed/src/lite-yt-embed.css';
+import Head, { type ArticleMeta } from '@components/organisms/Head.astro';
+import { isPreview } from '@utils/dev';
+import type { JsonLd } from '@utils/jsonld';
+
+export interface Props {
+  title: string;
+  description?: string;
+  image?: ImageMetadata;
+  lang?: string;
+  class?: string;
+  ogType?: 'website' | 'article' | 'profile';
+  noindex?: boolean;
+  jsonLd?: JsonLd | JsonLd[];
+  article?: ArticleMeta;
+}
+
+const {
+  title,
+  // Falls back to the site description in Head when omitted
+  description,
+  image,
+  lang = 'en',
+  class: className = '',
+  ogType,
+  noindex,
+  jsonLd,
+  article,
+} = Astro.props;
+
+const canonicalURL = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site)
+  : Astro.url;
+---
+
+<!doctype html>
+<html lang={lang}>
+	<head>
+		<Head
+			title={title}
+			description={description}
+			canonicalURL={canonicalURL}
+			image={image}
+			lang={lang}
+			ogType={ogType}
+			noindex={noindex}
+			jsonLd={jsonLd}
+			article={article}
+		>
+			<slot name="head" />
+		</Head>
+	</head>
+
+	<body class={className}>
+		<slot />
+
+		{
+			/* Preview builds (PUBLIC_PREVIEW=true) draw a frame so nobody mistakes
+			   them for the live site. They also render drafts and are noindex. */
+			isPreview && (
+				<div aria-hidden="true" class="preview-frame">
+					<span class="preview-frame-badge">Preview</span>
+				</div>
+			)
+		}
+	</body>
+</html>
+
+<script>
+	const loadEmbeds = () => {
+		if (document.querySelector('lite-youtube')) import('lite-youtube-embed');
+		if (document.querySelector('lite-vimeo')) import('lite-vimeo-embed');
+	};
+	loadEmbeds();
+	document.addEventListener('astro:page-load', loadEmbeds);
+</script>

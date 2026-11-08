@@ -1,0 +1,42 @@
+---
+import TOC from '@components/organisms/TOC';
+import renderMarkdownWithImages from '@utils/renderMarkdown';
+
+export interface Props {
+  content: string;
+  withTOC?: boolean;
+  id?: string;
+  // Set when the section background is dark, so prose colours invert
+  dark?: boolean;
+}
+
+const { content, withTOC = false, id = 'richtext', dark = false } = Astro.props;
+const proseClass = dark ? 'prose prose-invert' : 'prose';
+
+// Deterministic prefix (passed from Sections.astro) keeps heading ids stable
+// between builds and unique across multiple rich text sections on a page
+const sectionId = id;
+
+const { html, toc } = await renderMarkdownWithImages(content, withTOC, sectionId);
+
+const hasTOC = withTOC && toc && toc.length > 0;
+---
+
+{
+	hasTOC ? (
+		<div class="mx-auto max-w-6xl">
+			<div class="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_250px]">
+				<div class={`${proseClass} max-w-3xl`}>
+					<Fragment set:html={html} />
+				</div>
+				<aside class="hidden lg:block">
+					<TOC client:visible entries={toc!} />
+				</aside>
+			</div>
+		</div>
+	) : (
+		<div class={`mx-auto ${proseClass} max-w-3xl`}>
+			<Fragment set:html={html} />
+		</div>
+	)
+}

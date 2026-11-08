@@ -1,0 +1,12 @@
+{
+  "id": "tyler-morgan",
+  "name": "Tyler Morgan",
+  "headshot": "/src/assets/people/tyler-morgan.png",
+  "title": "Security Researcher",
+  "affiliation": "Civic Data Collaborative",
+  "sections": [
+    "Engineering",
+    "Product"
+  ],
+  "status": "published"
+}

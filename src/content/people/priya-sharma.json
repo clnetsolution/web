@@ -1,0 +1,12 @@
+{
+  "id": "priya-sharma",
+  "name": "Priya Sharma",
+  "headshot": "/src/assets/people/priya-sharma.png",
+  "title": "UX Researcher",
+  "affiliation": "Community Signal Lab",
+  "sections": [
+    "Product",
+    "Design"
+  ],
+  "status": "published"
+}

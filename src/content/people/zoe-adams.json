@@ -1,0 +1,11 @@
+{
+  "id": "zoe-adams",
+  "name": "Zoe Adams",
+  "headshot": "/src/assets/people/zoe-adams.png",
+  "title": "Finance Manager",
+  "affiliation": "Community Signal Lab",
+  "sections": [
+    "Operations"
+  ],
+  "status": "published"
+}
