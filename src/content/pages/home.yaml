@@ -1,50 +1,68 @@
-title: Draftlab Scaffold
+title: CLnet Solution Sdn Bhd
 status: published
 background: highlight
-description: A pretty good web development starter
+description: We are professional onsite IT Service company which provide
+  computer laptop repair service, network and wireless setup, structured cabling
+  design and install.
 sections:
   - type: card
+    background:
+      bgColor: white
+      bgType: full
     title: It probably has what you are looking for.
-    description: >-
-      A static site that is also a fully configurable website builder,
+    description: A static site that is also a fully configurable website builder,
       with predefined content categories and most common settings.
     cards:
       - title: Accessible by Default
-        content: >-
-          WCAG-compliant components, keyboard navigation, screen reader
-          support, and reduced motion preferences.
-      - title: CMS-ready
-        content: >-
-          Pre-configured settings to work with [PagesCMS](https://pagescms.org). Add articles, upload media, change site settings, the works.
+        content: WCAG-compliant components, keyboard navigation, screen reader support,
+          and reduced motion preferences.
         button:
+          text: asdfasdf
           variant: primary
           size: md
+      - title: CMS-ready
+        content: Pre-configured settings to work with [PagesCMS](https://pagescms.org).
+          Add articles, upload media, change site settings, the works.
+        button:
+          text: Learn More
           link:
             type: internal
             pageRef: /how-to-use
-          text: Learn More
+          variant: primary
+          size: md
       - title: Open Source
-        content: >-
-          Free to use, modify, and distribute. Built with Astro, Tailwind,
-          and modern web standards.
+        content: Free to use, modify, and distribute. Built with Astro, Tailwind, and
+          modern web standards.
+        button:
+          text: asdfasdf
+          variant: primary
+          size: md
       - title: Privacy by Design
-        content: >-
-          Built-in patterns for consent management, data minimization, and
+        content: Built-in patterns for consent management, data minimization, and
           transparent data practices.
+        button:
+          text: sdf
+          variant: primary
+          size: md
   - type: button
+    background:
+      bgColor: white
+      bgType: full
     title: Ready to Start Building?
     buttons:
-      - variant: primary
-        size: lg
+      - text: Learn more
         link:
           type: internal
           pageRef: /how-to-use
-        text: Learn more
-        icon: arrow-right
-      - variant: outline
+        variant: primary
         size: lg
+        icon: arrow-right
+      - text: View on GitHub
         link:
           type: external
           url: https://github.com/draftlab-org/scaffold
-        text: View on GitHub
+        variant: outline
+        size: lg
         icon: external
+permalink: home
+breadcrumbs: auto
